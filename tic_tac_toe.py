@@ -65,17 +65,25 @@ def player_input():
         else:
             return input
 
-def place_marker (board, marker, position):
+# -----------------------------------------------------------------------------------
+# place_marker
+# -----------------------------------------------------------------------------------
+
+
+def place_marker (board_list, marker, position):
     """
-    place_marker: places "X" or "O" in the board
+    place_marker: places "X" or "O" in the board_list
     UPDATE: 12/21/2017
-    IN; board = a list of cell to be filled with "X" or "O", marker = "X" or "O" character, position = integer as in where to put the marker
-    RETURN: input
-    MODIFIES: Nothing
+    IN; board_list = a list of cell to be filled with "X" or "O", marker = "X" or "O" character, position = integer as in where to put the marker
+    RETURN: board_list = a list of cells
+    MODIFIES: board_list
     CALL: Nothing
     Description: If the input that was provided was greater than 9 or less than 1
-
     """
+
+    return board_list[position -1] = marker
+
+
 # -----------------------------------------------------------------------------------
 # main
 # -----------------------------------------------------------------------------------
@@ -84,6 +92,8 @@ def main():
     cell_list = [0,1,2,"X",4,5,6,7,8,]
     display_board(cell_list)
     input = player_input()
+    cell_list = place_marker (cell_list, "X", input)
+    display_board (cell_list)
 
 
 if __name__ == "__main__":
