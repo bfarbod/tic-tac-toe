@@ -80,8 +80,8 @@ def place_marker (board_list, marker, position):
     CALL: Nothing
     Description: If the input that was provided was greater than 9 or less than 1
     """
-
-    return board_list[position -1] = marker
+    board_list[position - 1] = marker
+    return board_list
 
 
 # -----------------------------------------------------------------------------------
