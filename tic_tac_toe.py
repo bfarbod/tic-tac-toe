@@ -61,6 +61,7 @@ def player_input():
                 sys.exit(0)
 
         if input < 1 or input > 9:
+            print ("Input must be 1 <= input <= 9")
             continue
         else:
             return input
@@ -68,7 +69,6 @@ def player_input():
 # -----------------------------------------------------------------------------------
 # place_marker
 # -----------------------------------------------------------------------------------
-
 
 def place_marker (board_list, marker, position):
     """
@@ -78,10 +78,45 @@ def place_marker (board_list, marker, position):
     RETURN: board_list = a list of cells
     MODIFIES: board_list
     CALL: Nothing
-    Description: If the input that was provided was greater than 9 or less than 1
+    Description: It places "X" or "O" into its position in the list but because list's index starts from
+    zero I need to subtract one from it.
     """
+
     board_list[position - 1] = marker
     return board_list
+
+# -----------------------------------------------------------------------------------
+# win_check
+# -----------------------------------------------------------------------------------
+def win_check (board_list, mark):
+    """
+    win_check: places "X" or "O" in the board_list
+    UPDATE: 12/21/2017
+    IN; board_list = a list of cell to be filled with "X" or "O", marker = "X" or "O" character, position = integer as in where to put the marker
+    RETURN: board_list = a list of cells
+    MODIFIES: board_list
+    CALL: Nothing
+    Description: It places "X" or "O" into its position in the list but because list's index starts from
+    zero I need to subtract one from it.
+    """
+
+    # Check the horizental cells
+    for step in xrange (0,7,3):
+        if board_list[0 + step] == mark and board_list[1 + step] == mark and board_list[2 + step] == mark:
+            return True
+
+    # Check the vertical cells
+    for step in xrange (0,3):
+        if board_list[0 + step] == mark and board_list[3 + step] == mark and board_list[6 + step] == mark:
+            return True
+
+    # Check the diameters of board
+    for step in xrange (0,3,2):
+        if board_list[0 + step] == mark and board_list[4] == mark and board_list[8 - step] == mark:
+            return True
+
+
+
 
 
 # -----------------------------------------------------------------------------------
@@ -89,11 +124,11 @@ def place_marker (board_list, marker, position):
 # -----------------------------------------------------------------------------------
 
 def main():
-    cell_list = [0,1,2,"X",4,5,6,7,8,]
-    display_board(cell_list)
+    board_list_list = [0,1,2,"X",4,5,6,7,8,]
+    display_board(board_list_list)
     input = player_input()
-    cell_list = place_marker (cell_list, "X", input)
-    display_board (cell_list)
+    board_list_list = place_marker (board_list_list, "X", input)
+    display_board (board_list_list)
 
 
 if __name__ == "__main__":
