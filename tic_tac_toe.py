@@ -1,5 +1,6 @@
 from __future__ import print_function
 import sys
+import random
 
 # -----------------------------------------------------------------------------------
 # player_input
@@ -8,7 +9,6 @@ import sys
 def display_board(cell_list):
     """
     display_board: display a list in board like manner
-    UPDATED: 12/19/2017
     IN: cell_list a list of numbers or characters
     RETURN: Nothing
     MODIFIES: Nothing
@@ -36,7 +36,6 @@ def display_board(cell_list):
 def player_input():
     """
     player_input: It asks the user to enter an input
-    UPDATED: 12/19/2017
     IN: Nothing
     RETURN: input = an integer that player has chosen
     MODIFIES: Nothing
@@ -73,7 +72,6 @@ def player_input():
 def place_marker (board_list, marker, position):
     """
     place_marker: places "X" or "O" in the board_list
-    UPDATE: 12/21/2017
     IN; board_list = a list of cell to be filled with "X" or "O", marker = "X" or "O" character, position = integer as in where to put the marker
     RETURN: board_list = a list of cells
     MODIFIES: board_list
@@ -90,14 +88,16 @@ def place_marker (board_list, marker, position):
 # -----------------------------------------------------------------------------------
 def win_check (board_list, mark):
     """
-    win_check: places "X" or "O" in the board_list
-    UPDATE: 12/21/2017
-    IN; board_list = a list of cell to be filled with "X" or "O", marker = "X" or "O" character, position = integer as in where to put the marker
-    RETURN: board_list = a list of cells
-    MODIFIES: board_list
+    win_check: Checks to see if any 3 cells in horizental, vertical or diameter manner are matched
+    IN; board_list = a list of cell to be filled with "X" or "O", marke = "X" or "O" character
+    RETURN: True or False
+    MODIFIES: Nothing
     CALL: Nothing
-    Description: It places "X" or "O" into its position in the list but because list's index starts from
-    zero I need to subtract one from it.
+    Description: It checkes to see if any 3 cells in horizental, vertical and diameter have the same mark
+    and it returns true if that's the case otherwise returns false.
+    Horizental: It checks 0,1,2  ,  3,4,5  ,  6,7,8   of list index.
+    Vertical: It checks 0,3,6  ,  1,4,7  ,  2,5,8   of list index.
+    Diameters: It checks 0,4,8  ,  2,4,6   of list index.
     """
 
     # Check the horizental cells
@@ -116,19 +116,42 @@ def win_check (board_list, mark):
             return True
 
 
+    # If 3 cells match coulnd't be found
+    return False
 
 
+# -----------------------------------------------------------------------------------
+# win_check
+# -----------------------------------------------------------------------------------
+def choose_first ():
+    """
+    choose_first: It randomly selects which player ("X" or "O") should go first.
+    IN;Nothing
+    RETURN: "X" or "O"
+    MODIFIES: Nothing
+    CALL: random.randint () function from import library
+    Description: Based on randint function between 1 <= number <= 2 and it returns one of them and we return
+    "X" or "O" based on that choice
+    """
+
+    choice = random.randint (1,2)
+    if choice == 1:
+        return "X"
+    else:
+        return "O"
 
 # -----------------------------------------------------------------------------------
 # main
 # -----------------------------------------------------------------------------------
 
 def main():
-    board_list_list = [0,1,2,"X",4,5,6,7,8,]
-    display_board(board_list_list)
+    board_list= ["X",2,"X",3,4,5,6,7,8,]
+    display_board(board_list)
     input = player_input()
-    board_list_list = place_marker (board_list_list, "X", input)
-    display_board (board_list_list)
+    board_list= place_marker (board_list, "X", input)
+    display_board (board_list)
+    print ( win_check (board_list, "X") )
+
 
 
 if __name__ == "__main__":
