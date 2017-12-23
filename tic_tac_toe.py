@@ -6,10 +6,10 @@ import random
 # player_input
 # -----------------------------------------------------------------------------------
 
-def display_board(cell_list):
+def display_board(board_list):
     """
     display_board: display a list in board like manner
-    IN: cell_list a list of numbers or characters
+    IN: board_list a list of numbers or characters
     RETURN: Nothing
     MODIFIES: Nothing
     CALL: Nothing
@@ -19,7 +19,7 @@ def display_board(cell_list):
     """
     count = 0
 
-    for cell in cell_list:
+    for cell in board_list:
         # if you're in the 3rd column then print a new line
         if count > 2:
             print()
@@ -89,7 +89,7 @@ def place_marker (board_list, marker, position):
 def win_check (board_list, mark):
     """
     win_check: Checks to see if any 3 cells in horizental, vertical or diameter manner are matched
-    IN; board_list = a list of cell to be filled with "X" or "O", marke = "X" or "O" character
+    IN; board_list = a list of cell to be filled with "X" or "O", mark = "X" or "O" character
     RETURN: True or False
     MODIFIES: Nothing
     CALL: Nothing
@@ -121,7 +121,7 @@ def win_check (board_list, mark):
 
 
 # -----------------------------------------------------------------------------------
-# win_check
+# choose_first
 # -----------------------------------------------------------------------------------
 def choose_first ():
     """
@@ -140,12 +140,31 @@ def choose_first ():
     else:
         return "O"
 
+
+# -----------------------------------------------------------------------------------
+# space_check
+# -----------------------------------------------------------------------------------
+def space_check (board_list, position):
+    """
+    space_check: It checks to see if the position that you applied is available or not.
+    IN;board_list = a list of cell to be filled with "X" or "O", position = an integer for board_list index
+    RETURN: True of False
+    MODIFIES: Nothing
+    CALL: Nothing
+    Description: It checks to see if the position that you applied is available or not and remember
+    that list starts with index 0 so we need to subtract 1 from position.
+    """
+
+    if board_list[position - 1].isdigit():
+        return True
+
+    return False
 # -----------------------------------------------------------------------------------
 # main
 # -----------------------------------------------------------------------------------
 
 def main():
-    board_list= ["X",2,"X",3,4,5,6,7,8,]
+    board_list= ["1","2","3","4","5","6","7","8","9"]
     display_board(board_list)
     input = player_input()
     board_list= place_marker (board_list, "X", input)
