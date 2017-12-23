@@ -151,14 +151,62 @@ def space_check (board_list, position):
     RETURN: True of False
     MODIFIES: Nothing
     CALL: Nothing
-    Description: It checks to see if the position that you applied is available or not and remember
-    that list starts with index 0 so we need to subtract 1 from position.
+    Description: It checks to see if the position is available or not and remember
+    that list starts with index 0 so we need to subtract 1 from position, also we filled the list with string numbers
+    so we are going to check if the position is digit.
     """
 
     if board_list[position - 1].isdigit():
         return True
 
+    # If it's not a number then (if it's not empty)
     return False
+
+
+# -----------------------------------------------------------------------------------
+# full_board_check
+# -----------------------------------------------------------------------------------
+def full_board_check (board_list):
+    """
+    space_check: It checks if the board is full and returns a boolean value. True if full, False otherwise.
+    IN;board_list = a list of cell to be filled with "X" or "O" .
+    RETURN: True of False
+    MODIFIES: Nothing
+    CALL: Nothing
+    Description: It checks to see if the board is full of "X"s or "O"s and returns True if that's the case. Since the board_list is full of string numbers
+    then isdigit() function is the best option to check if there's any number in the list.
+    """
+
+    for cell in board_list:
+        if cell.isdigit ():
+            return False
+
+        return True
+# -----------------------------------------------------------------------------------
+# player_choice
+# -----------------------------------------------------------------------------------
+def player_choice (board_list):
+    """
+    space_check: It checks if the board is full and returns a boolean value. True if full, False otherwise.
+    IN;board_list = a list of cell to be filled with "X" or "O" .
+    RETURN: True of False
+    MODIFIES: Nothing
+    CALL: Nothing
+    Description: It checks to see if the board is full of "X"s or "O"s and returns True if that's the case. Since the board_list is full of string numbers
+    then isdigit() function is the best option to check if there's any number in the list.
+    """
+
+    while True:
+        input = player_input()
+        if space_check (board_list, input):
+            return input
+        else:
+            print ("That cell has been taken!")
+            continue
+
+
+
+
 # -----------------------------------------------------------------------------------
 # main
 # -----------------------------------------------------------------------------------
@@ -170,6 +218,7 @@ def main():
     board_list= place_marker (board_list, "X", input)
     display_board (board_list)
     print ( win_check (board_list, "X") )
+    print (space_check (board_list, 2))
 
 
 
