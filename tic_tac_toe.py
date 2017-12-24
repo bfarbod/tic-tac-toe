@@ -2,7 +2,9 @@ from __future__ import print_function
 import sys
 import random
 
-# -----------------------------------------------------------------------------------
+
+
+#-----------------------------------------------------------------------------------
 # player_input
 # -----------------------------------------------------------------------------------
 
@@ -56,8 +58,14 @@ def player_input():
         if input == -1:
             answer = raw_input("Do you want to quit? (y/n): ")
             answer = answer.strip()
+            answer = answer.lower()
+
+            # if it's yes exit the program
             if answer[0] == "y":
                 sys.exit(0)
+            # anything else continue at the top of while loop
+            else:
+                continue
 
         if input < 1 or input > 9:
             print ("Input must be 1 <= input <= 9")
@@ -182,18 +190,17 @@ def full_board_check (board_list):
             return False
 
         return True
-# -----------------------------------------------------------------------------------
-# player_choice
-# -----------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------
+#player_choice
+#-----------------------------------------------------------------------------------
 def player_choice (board_list):
     """
-    space_check: It checks if the board is full and returns a boolean value. True if full, False otherwise.
+    player_choice: It checks to see if the place that you have chosen is free or not.
     IN;board_list = a list of cell to be filled with "X" or "O" .
-    RETURN: True of False
+    RETURN: input (player's input)
     MODIFIES: Nothing
-    CALL: Nothing
-    Description: It checks to see if the board is full of "X"s or "O"s and returns True if that's the case. Since the board_list is full of string numbers
-    then isdigit() function is the best option to check if there's any number in the list.
+    CALL: player_input and space_check functions
+    Description: It checks to see if the place that you have chosen is free or not.
     """
 
     while True:
@@ -201,7 +208,7 @@ def player_choice (board_list):
         if space_check (board_list, input):
             return input
         else:
-            print ("That cell has been taken!")
+            print ("Number ", input , " cell has been taken!")
             continue
 
 
@@ -212,13 +219,14 @@ def player_choice (board_list):
 # -----------------------------------------------------------------------------------
 
 def main():
-    board_list= ["1","2","3","4","5","6","7","8","9"]
+    board_list= ["X","2","3","4","5","6","7","8","9"]
     display_board(board_list)
-    input = player_input()
+    input = player_choice (board_list)
     board_list= place_marker (board_list, "X", input)
     display_board (board_list)
     print ( win_check (board_list, "X") )
     print (space_check (board_list, 2))
+    player_choice (board_list)
 
 
 
