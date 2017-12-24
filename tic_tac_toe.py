@@ -21,6 +21,8 @@ def display_board(board_list):
     """
     count = 0
 
+    print ()
+
     for cell in board_list:
         # if you're in the 3rd column then print a new line
         if count > 2:
@@ -30,6 +32,7 @@ def display_board(board_list):
         print ("|",cell,"|" ,end="")
 
         count = count + 1
+
 
 # -----------------------------------------------------------------------------------
 # player_input
@@ -64,7 +67,10 @@ def player_input():
             if answer[0] == "y":
                 sys.exit(0)
             # anything else continue at the top of while loop
+            elif answer[0] == "n":
+                continue
             else:
+                print ("\nYou didn't provide the sufficient answer!(y or n)\n")
                 continue
 
         if input < 1 or input > 9:
@@ -208,9 +214,62 @@ def player_choice (board_list):
         if space_check (board_list, input):
             return input
         else:
-            print ("Number ", input , " cell has been taken!")
+            print ("Number ",input, " cell has been taken!")
             continue
 
+
+#-----------------------------------------------------------------------------------
+#replay
+#-----------------------------------------------------------------------------------
+def replay ():
+    """
+    replay: It asks the player if they want to play again
+    IN; Nothing
+    RETURN: True of False
+    MODIFIES: Nothing
+    CALL: Nothing
+    Description: It asks the player if they want to play again and returns True if they
+    want to play again
+    """
+
+    while True:
+        answer = raw_input ("\n\nDo you want to play again? (y or n): ")
+        answer = answer.strip()
+        answer = answer.lower()
+
+        if answer[0] == "y":
+            return True
+        elif answer[0] == "n":
+            sys.exit (0)
+        else:
+            print ("\nplease answer \"y\" or \"n\"!\n")
+            continue
+
+#-----------------------------------------------------------------------------------
+#preparation
+#-----------------------------------------------------------------------------------
+def preparation ():
+    """
+    preparation: It puts string numbers into the list
+    IN; Nothing
+    RETURN: board_list = a list of cell to be filled with numbers from 1 to 9.
+    MODIFIES: board_list
+    CALL: Nothing
+    Description: In order for player to see which cell needs to be selected we are
+    going to fill it with string numbers from 1 to 9. Also in this way you consume less
+    memory instead of hard coding list with string numbers and I know it's not much memroy
+    that we need to be concern about but it's good practice.
+    """
+
+    number = 1
+    board_list = []
+
+    for cell in xrange (0,9):
+        number_str = str (number)
+        board_list.append (number_str)
+        number = number + 1
+
+    return board_list
 
 
 
@@ -219,14 +278,9 @@ def player_choice (board_list):
 # -----------------------------------------------------------------------------------
 
 def main():
-    board_list= ["X","2","3","4","5","6","7","8","9"]
-    display_board(board_list)
-    input = player_choice (board_list)
-    board_list= place_marker (board_list, "X", input)
+    board_list = preparation ()
     display_board (board_list)
-    print ( win_check (board_list, "X") )
-    print (space_check (board_list, 2))
-    player_choice (board_list)
+    print ( replay () )
 
 
 
