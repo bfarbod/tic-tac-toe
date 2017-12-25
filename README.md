@@ -8,6 +8,8 @@ The tic tac toe game in python
 ### Prerequisites
 
   * Python 2.7 
+  
+  (If you want to run this in python 3 then you need to change all the xrange function to range.)
 
 ### How to run it
 For Linux or Windows:<br />
