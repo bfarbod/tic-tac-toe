@@ -1,11 +1,12 @@
 from __future__ import print_function
 import sys
 import random
+import time
 
 
 
 #-----------------------------------------------------------------------------------
-# player_input
+# display_board
 # -----------------------------------------------------------------------------------
 
 def display_board(board_list):
@@ -21,7 +22,7 @@ def display_board(board_list):
     """
     count = 0
 
-    print ()
+    print ("Welcome to Tic Tac Toe!", end="\n")
 
     for cell in board_list:
         # if you're in the 3rd column then print a new line
@@ -33,12 +34,14 @@ def display_board(board_list):
 
         count = count + 1
 
+    print ()
+
 
 # -----------------------------------------------------------------------------------
 # player_input
 # -----------------------------------------------------------------------------------
 
-def player_input():
+def player_input(marker):
     """
     player_input: It asks the user to enter an input
     IN: Nothing
@@ -50,8 +53,8 @@ def player_input():
     and quits the program. If the input was between 1 and 9 then it returns the input
     """
     while True:
-        print()
-        input = raw_input("Enter a cell number( enter -1 to quit): ")
+        print("Enter a cell number for" ,marker , end="")
+        input = raw_input(" ( enter -1 to quit): ")
         try:
             input = int(input)
         except:
@@ -141,7 +144,7 @@ def choose_first ():
     """
     choose_first: It randomly selects which player ("X" or "O") should go first.
     IN;Nothing
-    RETURN: "X" or "O"
+    RETURN: "x" or "o"
     MODIFIES: Nothing
     CALL: random.randint () function from import library
     Description: Based on randint function between 1 <= number <= 2 and it returns one of them and we return
@@ -150,9 +153,9 @@ def choose_first ():
 
     choice = random.randint (1,2)
     if choice == 1:
-        return "X"
+        return "x"
     else:
-        return "O"
+        return "o"
 
 
 # -----------------------------------------------------------------------------------
@@ -195,11 +198,11 @@ def full_board_check (board_list):
         if cell.isdigit ():
             return False
 
-        return True
+    return True
 #-----------------------------------------------------------------------------------
 #player_choice
 #-----------------------------------------------------------------------------------
-def player_choice (board_list):
+def player_choice (board_list, marker):
     """
     player_choice: It checks to see if the place that you have chosen is free or not.
     IN;board_list = a list of cell to be filled with "X" or "O" .
@@ -210,7 +213,7 @@ def player_choice (board_list):
     """
 
     while True:
-        input = player_input()
+        input = player_input(marker)
         if space_check (board_list, input):
             return input
         else:
@@ -272,16 +275,91 @@ def preparation ():
     return board_list
 
 
+#-----------------------------------------------------------------------------------
+#clear_terminal
+#-----------------------------------------------------------------------------------
+def clear_terminal ():
+    """
+    preparation: It clears the terminal
+    IN; Nothing
+    RETURN: Nothing
+    MODIFIES: board_list
+    CALL: sys.stderr.flush function
+    Description: It clears the terminal
+    """
+    print("\033[H\033[J")
+    sys.stdout.flush()
+    print("\033[H\033[J")
+    sys.stderr.flush()
+
 
 # -----------------------------------------------------------------------------------
 # main
 # -----------------------------------------------------------------------------------
 
 def main():
-    board_list = preparation ()
-    display_board (board_list)
-    print ( replay () )
 
+    board_list = preparation ()
+    win = False
+
+# while loop start-------------------------------------------------------------------------
+    while True:
+        XorO_mark = choose_first ()
+
+        if XorO_mark == "x":
+            player1_marker = XorO_mark
+            player2_marker = "o"
+        else:
+            player1_marker = "x"
+            player2_marker = XorO_mark
+
+# while loop start-------------------------------------------------------------------------
+
+
+        while not full_board_check (board_list):
+            display_board (board_list)
+
+            print ("\nPlayer 1 (",player1_marker,") Turn:")
+            marker_position = player_choice (board_list, player1_marker)
+            board_list = place_marker (board_list, player1_marker, marker_position)
+
+            win = win_check (board_list, player1_marker)
+            if win == True:
+                print ("Player 1 (",player1_marker,") won!")
+                break
+
+            clear_terminal ()
+            # sleep for 1 seconds
+            time.sleep(0.25)
+
+
+            display_board (board_list)
+
+            print ("\nPlayer 2 (",player2_marker,") Turn:")
+            marker_position = player_choice (board_list, player2_marker)
+            board_list = place_marker (board_list, player2_marker, marker_position)
+
+            win = win_check (board_list, player2_marker)
+            if win == True:
+                print ("Player 2 (",player2_marker,") won!")
+                break
+
+
+            clear_terminal ()
+            # sleep for 1 seconds
+            time.sleep(0.25)
+
+# while loop end-------------------------------------------------------------------------
+
+        if not win and full_board_check (board_list):
+            print ("It's a draw!")
+
+
+        answer = replay ()
+        if answer == True:
+            continue
+
+# while loop end-------------------------------------------------------------------------
 
 
 if __name__ == "__main__":
