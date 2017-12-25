@@ -3,6 +3,10 @@ import sys
 import random
 import time
 
+#-----------------------------------------------------------------------------------
+# RUN IT WITH PYTHON 2.7
+# -----------------------------------------------------------------------------------
+
 
 
 #-----------------------------------------------------------------------------------
@@ -217,7 +221,7 @@ def player_choice (board_list, marker):
         if space_check (board_list, input):
             return input
         else:
-            print ("\n\nNumber ",input, " cell has been taken!\n\n")
+            print ("\nNumber",input, "cell has been taken!\n")
             continue
 
 
@@ -288,12 +292,12 @@ def clear_terminal (wait):
     CALL: sys.stderr.flush function
     Description: It clears the terminal and it waits a little bit.
     """
-    print("\033[2J");
-    print("\033[0;0H");
-    # print("\033[H\033[J")
-    # sys.stdout.flush()
-    # print("\033[H\033[J")
-    # sys.stderr.flush()
+    # print("\033[2J");
+    # print("\033[0;0H");
+    print("\033[H\033[J")
+    sys.stdout.flush()
+    print("\033[H\033[J")
+    sys.stderr.flush()
 
 
     # sleep for # seconds
