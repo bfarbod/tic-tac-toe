@@ -22,7 +22,7 @@ def display_board(board_list):
     """
     count = 0
 
-    print ("Welcome to Tic Tac Toe!", end="\n")
+    print ("\nWelcome to Tic Tac Toe!\n", end="\n")
 
     for cell in board_list:
         # if you're in the 3rd column then print a new line
@@ -44,7 +44,7 @@ def display_board(board_list):
 def player_input(marker):
     """
     player_input: It asks the user to enter an input
-    IN: Nothing
+    IN: marker = it's either "x" or "o".
     RETURN: input = an integer that player has chosen
     MODIFIES: Nothing
     CALL: Nothing
@@ -53,12 +53,12 @@ def player_input(marker):
     and quits the program. If the input was between 1 and 9 then it returns the input
     """
     while True:
-        print("Enter a cell number for" ,marker , end="")
+        print("Enter a cell number for \""+marker+"\"",end="")
         input = raw_input(" ( enter -1 to quit): ")
         try:
             input = int(input)
         except:
-            print ("Enter an integer!")
+            print ("\nEnter an integer!\n")
             continue
 
         if input == -1:
@@ -186,7 +186,7 @@ def space_check (board_list, position):
 def full_board_check (board_list):
     """
     space_check: It checks if the board is full and returns a boolean value. True if full, False otherwise.
-    IN;board_list = a list of cell to be filled with "X" or "O" .
+    IN;board_list = a list of cell to be filled with "X" or "O".
     RETURN: True of False
     MODIFIES: Nothing
     CALL: Nothing
@@ -205,7 +205,7 @@ def full_board_check (board_list):
 def player_choice (board_list, marker):
     """
     player_choice: It checks to see if the place that you have chosen is free or not.
-    IN;board_list = a list of cell to be filled with "X" or "O" .
+    IN;board_list = a list of cell to be filled with "X" or "O" marker = it's either "x" or "o".
     RETURN: input (player's input)
     MODIFIES: Nothing
     CALL: player_input and space_check functions
@@ -217,7 +217,7 @@ def player_choice (board_list, marker):
         if space_check (board_list, input):
             return input
         else:
-            print ("Number ",input, " cell has been taken!")
+            print ("\n\nNumber ",input, " cell has been taken!\n\n")
             continue
 
 
@@ -230,7 +230,7 @@ def replay ():
     IN; Nothing
     RETURN: True of False
     MODIFIES: Nothing
-    CALL: Nothing
+    CALL: clear_terminal function
     Description: It asks the player if they want to play again and returns True if they
     want to play again
     """
@@ -241,11 +241,12 @@ def replay ():
         answer = answer.lower()
 
         if answer[0] == "y":
+            clear_terminal (0.4)
             return True
         elif answer[0] == "n":
             sys.exit (0)
         else:
-            print ("\nplease answer \"y\" or \"n\"!\n")
+            print ("\n\nplease answer \"y\" or \"n\"!\n")
             continue
 
 #-----------------------------------------------------------------------------------
@@ -278,19 +279,25 @@ def preparation ():
 #-----------------------------------------------------------------------------------
 #clear_terminal
 #-----------------------------------------------------------------------------------
-def clear_terminal ():
+def clear_terminal (wait):
     """
     preparation: It clears the terminal
     IN; Nothing
     RETURN: Nothing
     MODIFIES: board_list
     CALL: sys.stderr.flush function
-    Description: It clears the terminal
+    Description: It clears the terminal and it waits a little bit.
     """
-    print("\033[H\033[J")
-    sys.stdout.flush()
-    print("\033[H\033[J")
-    sys.stderr.flush()
+    print("\033[2J");
+    print("\033[0;0H");
+    # print("\033[H\033[J")
+    # sys.stdout.flush()
+    # print("\033[H\033[J")
+    # sys.stderr.flush()
+
+
+    # sleep for # seconds
+    time.sleep(wait)
 
 
 # -----------------------------------------------------------------------------------
@@ -299,11 +306,11 @@ def clear_terminal ():
 
 def main():
 
-    board_list = preparation ()
-    win = False
-
 # while loop start-------------------------------------------------------------------------
     while True:
+
+        board_list = preparation ()
+
         XorO_mark = choose_first ()
 
         if XorO_mark == "x":
@@ -317,46 +324,47 @@ def main():
 
 
         while not full_board_check (board_list):
+
             display_board (board_list)
 
+            # ---------------------------------------------
+            # Player 1's turn
             print ("\nPlayer 1 (",player1_marker,") Turn:")
             marker_position = player_choice (board_list, player1_marker)
             board_list = place_marker (board_list, player1_marker, marker_position)
 
             win = win_check (board_list, player1_marker)
             if win == True:
-                print ("Player 1 (",player1_marker,") won!")
+                print ("\n\nPlayer 1 (",player1_marker,") won!")
                 break
 
-            clear_terminal ()
-            # sleep for 1 seconds
-            time.sleep(0.25)
+            clear_terminal (0.4)
+
+            if full_board_check (board_list):
+                print ("It's a draw!")
+                break
 
 
             display_board (board_list)
 
-            print ("\nPlayer 2 (",player2_marker,") Turn:")
+
+            # ---------------------------------------------
+            # Player 2's turn
+            print ("\n\nPlayer 2 (",player2_marker,") Turn:")
             marker_position = player_choice (board_list, player2_marker)
             board_list = place_marker (board_list, player2_marker, marker_position)
 
             win = win_check (board_list, player2_marker)
             if win == True:
-                print ("Player 2 (",player2_marker,") won!")
+                print ("\n\nPlayer 2 (",player2_marker,") won!")
                 break
 
 
-            clear_terminal ()
-            # sleep for 1 seconds
-            time.sleep(0.25)
+            clear_terminal (0.4)
 
 # while loop end-------------------------------------------------------------------------
 
-        if not win and full_board_check (board_list):
-            print ("It's a draw!")
-
-
-        answer = replay ()
-        if answer == True:
+        if replay():
             continue
 
 # while loop end-------------------------------------------------------------------------
