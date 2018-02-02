@@ -337,8 +337,8 @@ def main():
             marker_position = player_choice (board_list, player1_marker)
             board_list = place_marker (board_list, player1_marker, marker_position)
 
-            win = win_check (board_list, player1_marker)
-            if win == True:
+            win_player1 = win_check (board_list, player1_marker)
+            if win_player1 == True:
                 print ("\n\nPlayer 1 (",player1_marker,") won!")
                 break
 
@@ -358,8 +358,8 @@ def main():
             marker_position = player_choice (board_list, player2_marker)
             board_list = place_marker (board_list, player2_marker, marker_position)
 
-            win = win_check (board_list, player2_marker)
-            if win == True:
+            win_player2 = win_check (board_list, player2_marker)
+            if win_player2== True:
                 print ("\n\nPlayer 2 (",player2_marker,") won!")
                 break
 
